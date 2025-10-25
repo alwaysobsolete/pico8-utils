@@ -30,11 +30,11 @@ help
 ### Options
 
 ```shell
-sfxstart[-sfxend],src,[dest]
+src,[dest],[excluded,...]
 ```
-
-* `sfxstart`: SFX index to check for unused custom instruments, follow with hypen and `sfxend` to specify range
 
 * `src`: Path to source cart. *Must be below -root_path*.
 
-* `dest`: Path to destination cart. *Must be below -root_path*. Defaults to `src`.
+* `dest`: Optional path to destination cart. *Must be below -root_path*. Defaults to `src`.
+
+* `excluded,...` - Optional instrument indexes to exclude
