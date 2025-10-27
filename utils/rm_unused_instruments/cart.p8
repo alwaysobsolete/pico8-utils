@@ -7,10 +7,11 @@ __lua__
 -->8
 --dependencies
 
-#include ../../lib/sfx/get_unused_instruments.lua
 #include ../../lib/gfx/printb.lua
-#include ../../lib/sfx/sfx_reset.lua
+#include ../../lib/sfx/get_unused_instruments.lua
 #include ../../lib/sfx/rm_unused_instruments.lua
+#include ../../lib/sfx/sfx_reset.lua
+#include ../../lib/table/make_range_lookup.lua
 
 -->8
 --constants
