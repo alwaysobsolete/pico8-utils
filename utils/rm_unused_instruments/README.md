@@ -10,7 +10,7 @@ Remove custom instruments not used in specified sfx range.
 pico8 -root_path root_path -p "param_str" [-x | -run] /path/to/this/cart
 
 # example:
-pico8 -root_path /carts -p "8-15,/carts/foo.p8,/carts/bar.p8" [-x | -run] /path/to/this/cart
+pico8 -root_path /carts -p "/carts/foo.p8,/carts/bar.p8,0,3" [-x | -run] /path/to/this/cart
 ```
 
 * `root_path`: Path to use as Pico-8 root directory. Defaults to `folder`.

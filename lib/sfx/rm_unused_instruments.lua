@@ -4,17 +4,14 @@
 --
 -- @depends
 -- @see get_unused_instruments
+-- @see make_range_lookup
 -- @see printb
 -- @see sfx_reset
 --
--- @param ... {[0-7], ...} - excluded instrument indexes
+-- @param ... {[0-7[-[0-7]]], ...} - excluded instrument indexes
 function rm_unused_instruments(...)
 	-- cache excluded indexes
-	local excluded = {}
-
-	for i in all({...}) do
-		excluded[i] = true
-	end
+	local excluded = make_range_lookup(...)
 
 	-- unused instruments
 	for i in all(get_unused_instruments()) do
