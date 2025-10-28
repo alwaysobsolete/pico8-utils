@@ -8,8 +8,8 @@ __lua__
 --dependencies
 
 #include ../../lib/gfx/printb.lua
-#include ../../lib/sfx/sfx_reset.lua
 #include ../../lib/sfx/sfx_transpose.lua
+#include ../../lib/table/make_range_lookup.lua
 
 -->8
 --constants
@@ -20,13 +20,13 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 \
 param string options:\
 help - print this message\
-sfxstart[-sfxend],semitones,src,[dest] - transpose sfx:\
-	example: \"1,8-15,foo.p8,bar.p8\"\
-	sfxstart - sfx index to modify\
-		follow with hyphen and sfxend to specify range\
-	semitones - semitones to transpose by\
+src,[dest],semitones,[excluded,...] - transpose sfx:\
+	example: \"foo.p8,bar.p8,-1,0-7\"\
 	src - path to src cart, must be below -root_path\
 	[dest] - path to dest cart, must be below -root_path\
+	semitones - semitones to transpose by\
+	[excluded,...] - sfx indexes to exclude,\
+		comma-delimited, can provide hyphen-delimited range, eg, 8-16\
 ",
 	GET_HELP = "\
 for help, run:\
@@ -56,17 +56,12 @@ end
 --main
 
 --parse param_str
-local range, semitones, src, dest = unpack(split(PARAM_STR))
+local params = split(PARAM_STR)
+local src = deli(PARAM_STR, 1)
+local dest = deli(PARAM_STR, 1)
+local spd = deli(PARAM_STR, 1)
 
-local sfxstart, sfxend = unpack(split(range, "-"))
-
-if (not sfxend or type(sfxend) ~= "number") then
-	sfxend = sfxstart
-end
-
-assert(type(sfxstart) == "number", "sfxstart must be number\n" .. MESSAGES.GET_HELP)
-
-assert(semitones, "semitones must be a number\n" .. MESSAGES.GET_HELP)
+assert(tonum(semitones), "semitones must be a number\n" .. MESSAGES.GET_HELP)
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
 
@@ -84,7 +79,14 @@ reload(0x3200, 0x3200, 0x1100, src)
 --transpose
 printb("transposing sfx...")
 
-sfx_transpose(semitones, sfxstart, sfxend)
+local excluded = make_range_lookup(unpack(params))
+
+for i = 0, 63 do
+	if not excluded[i] then
+		sfx_transpose(i, semitones)
+		printb("updated: " .. i)
+	end
+end
 
 --write dest rom
 printb("writing " .. dest)
