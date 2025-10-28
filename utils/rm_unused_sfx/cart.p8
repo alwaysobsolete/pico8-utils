@@ -8,7 +8,7 @@ __lua__
 --dependencies
 
 #include ../../lib/gfx/printb.lua
-#include ../../lib/sfx/get_unused_sfx.lua
+#include ../../lib/music/get_unused_sfx.lua
 #include ../../lib/sfx/get_unused_instruments.lua
 #include ../../lib/sfx/get_used_instruments.lua
 #include ../../lib/sfx/note_uses_instrument.lua
