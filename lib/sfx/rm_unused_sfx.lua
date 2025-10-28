@@ -3,53 +3,40 @@
 -- call cstore() to save
 --
 -- @depends
+-- @see get_unused_sfx
+-- @see get_unused_instruments
+-- @see get_used_instruments
+-- @see make_range_lookup
+-- @see note_uses_instrument
+-- @see printb
+-- @see rm_unused_instruments
 -- @see sfx_reset
+-- @see sfx_uses_instrument
 --
--- @param sfxstart {integer} start of sfx range to remove
--- @param sfxend {integer} end of sfx range to remove
-function rm_unused_sfx(sfxstart, sfxend)
-	--store removed sfx indexes
-	local removed = {}
+-- @param ... {[0-7[-[0-7]]], ...} - excluded sfx indexes
+function rm_unused_sfx(...)
+	-- cache excluded indexes
+	local excluded = make_range_lookup(...)
+	-- cache unused indexes
+	local unused = get_unused_sfx()
 
-	--loop through sfx
-	for sfx_num = sfxstart or 8, sfxend or 63 do
-		--loop through music patterns
-		for pat_num = 0, 63 do
-			local addr = 0x3100 + pat_num * 4
-
-			--loop through channels
-			for ch_num = 0, 3 do
-				local byte = peek(addr + ch_num)
-				local enabled = 0x40 & byte == 0
-				local match = byte & 0x3f == sfx_num
-
-				if
-					enabled
-					and match
-				then
-					goto continue
-				end
-			end
-		end
-
-		sfx_reset(sfx_num)
-
-		add(removed, sfx_num)
-
-		::continue::
+	-- remove instruments from unused cache
+	for instrument in all(get_used_instruments()) do
+		del(unused, instrument)
 	end
 
-	--print results
-	if #removed > 0 then
-		printh"removed sfx:"
-		print"removed sfx:"
+	-- remove unused sfx
+	printb("removing sfx...")
 
-		for v in all(removed) do
-			printh(v)
-			print(v)
+	for i in all(unused) do
+		if not excluded[i] then
+			sfx_reset(i)
+			printb("removed: " .. i)
 		end
-	else
-		printh"no unused sfx"
-		print"no unused sfx"
 	end
+
+	-- remove remaining unused instruments
+	printb("removing instruments...")
+
+	rm_unused_instruments(...)
 end

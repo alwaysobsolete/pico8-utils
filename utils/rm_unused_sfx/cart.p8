@@ -8,8 +8,15 @@ __lua__
 --dependencies
 
 #include ../../lib/gfx/printb.lua
-#include ../../lib/sfx/sfx_reset.lua
+#include ../../lib/sfx/get_unused_sfx.lua
+#include ../../lib/sfx/get_unused_instruments.lua
+#include ../../lib/sfx/get_used_instruments.lua
+#include ../../lib/sfx/note_uses_instrument.lua
+#include ../../lib/sfx/rm_unused_instruments.lua
 #include ../../lib/sfx/rm_unused_sfx.lua
+#include ../../lib/sfx/sfx_reset.lua
+#include ../../lib/sfx/sfx_uses_instrument.lua
+#include ../../lib/table/make_range_lookup.lua
 
 -->8
 --constants
@@ -20,12 +27,12 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 \
 param string options:\
 help - print this message\
-sfxstart[-sfxend],src,[dest] - remove sfx not used in any pattern:\
-	example: \"8-15,foo.p8,bar.p8\"\
-	sfxstart - sfx index to check if used in music pattern\
-		follow with hyphen and sfxend to specify range\
+src,[dest],[excluded,...] - remove sfx not used in any pattern:\
+	example: \"foo.p8,bar.p8,8,12-16\"\
 	src - path to src cart, must be below -root_path\
 	[dest] - path to dest cart, must be below -root_path\
+	[excluded,...] - instrument indexes to exclude\
+		comma-delimited, can provide hyphen-delimited range, eg, 8-16\
 ",
 	GET_HELP = "\
 for help, run:\
@@ -55,14 +62,10 @@ end
 --main
 
 --parse param_str
-local range, src, dest = unpack(split(PARAM_STR))
-local sfxstart, sfxend = unpack(split(range, "-"))
-
-if (not sfxend or type(sfxend) ~= "number") then
-	sfxend = sfxstart
-end
-
-assert(type(sfxstart) == "number", "sfxstart must be number\n" .. MESSAGES.GET_HELP)
+local params = split(PARAM_STR)
+local src = deli(params, 1)
+local dest = deli(params, 1)
+local excluded = params
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
 
@@ -80,7 +83,7 @@ reload(0x3100, 0x3100, 0x1200, src)
 --remove
 printb("removing unused sfx...")
 
-rm_unused_sfx(sfxstart, sfxend)
+rm_unused_sfx(unpack(excluded))
 
 --write dest rom
 printb("writing " .. dest)
