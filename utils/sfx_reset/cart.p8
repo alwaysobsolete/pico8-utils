@@ -8,7 +8,15 @@ __lua__
 --dependencies
 
 #include ../../lib/gfx/printb.lua
+#include ../../lib/sfx/get_unused_instruments.lua
+#include ../../lib/sfx/get_unused_sfx.lua
+#include ../../lib/sfx/optimize_patterns.lua
+#include ../../lib/sfx/note_uses_instrument.lua
+#include ../../lib/sfx/rm_unused_instruments.lua
+#include ../../lib/sfx/rm_unused_sfx.lua
 #include ../../lib/sfx/sfx_reset.lua
+#include ../../lib/sfx/sfx_uses_instrument.lua
+#include ../../lib/table/make_range_lookup.lua
 
 -->8
 --constants
@@ -19,10 +27,8 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 \
 param string options:\
 help - print this message\
-sfxstart[-sfxend],src,[dest] - reset sfx:\
-	example: \"8-15,foo.p8,bar.p8\"\
-	sfxstart - sfx index to reset\
-		follow with hyphen and sfxend to specify range\
+src,[dest] - reset sfx:\
+	example: \"foo.p8,bar.p8\"\
 	src - path to src cart, must be below -root_path\
 	[dest] - path to dest cart, must be below -root_path\
 ",
@@ -46,7 +52,7 @@ assert(
 )
 
 if (PARAM_STR == "help") then
-	printb("\nsfx reset\n" .. MESSAGES.HELP)
+	printb("\noptimize audio\n" .. MESSAGES.HELP)
 	stop()
 end
 
@@ -54,14 +60,11 @@ end
 --main
 
 --parse param_str
-local range, src, dest = unpack(split(PARAM_STR))
-local sfxstart, sfxend = unpack(split(range, "-"))
+local src, dest = unpack(split(PARAM_STR))
 
 if (not sfxend or type(sfxend) ~= "number") then
 	sfxend = sfxstart
 end
-
-assert(type(sfxstart) == "number", "sfxstart must be number\n" .. MESSAGES.GET_HELP)
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
 
@@ -79,9 +82,7 @@ reload(0x3200, 0x3200, 0x1100, src)
 --reset
 printb("resetting sfx ...")
 
-for i = sfxstart, sfxend do
-	sfx_reset(i)
-end
+rm_unused_sfx()
 
 --write dest rom
 printb("writing " .. dest)
