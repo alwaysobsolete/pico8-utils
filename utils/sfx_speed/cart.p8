@@ -8,8 +8,8 @@ __lua__
 --dependencies
 
 #include ../../lib/gfx/printb.lua
-#include ../../lib/sfx/sfx_reset.lua
 #include ../../lib/sfx/sfx_speed.lua
+#include ../../lib/table/make_range_lookup.lua
 
 -->8
 --constants
@@ -20,13 +20,13 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 \
 param string options:\
 help - print this message\
-sfxstart[-sfxend],spd,src,[dest] - change sfx speed:\
-	example: \"16,8-15,foo.p8,bar.p8\"\
-	sfxstart - sfx index to modify\
-		follow with hyphen and sfxend to specify range\
-	spd - new sfx spd\
+src,[dest],spd,[excluded,...] - change sfx speed:\
+	example: \"foo.p8,bar.p8,8,16-32\"\
 	src - path to src cart, must be below -root_path\
 	[dest] - path to dest cart, must be below -root_path\
+	spd - new sfx spd\
+	[excluded,...] - sfx indexes to exclude,\
+		comma-delimited, can provide hyphen-delimited range, eg, 8-16\
 ",
 	GET_HELP = "\
 for help, run:\
@@ -56,18 +56,12 @@ end
 --main
 
 --parse param_str
-local range, spd, src, dest = unpack(split(PARAM_STR))
-local sfxstart, sfxend = unpack(split(range, "-"))
+local params = split(PARAM_STR)
+local src = deli(PARAM_STR, 1)
+local dest = deli(PARAM_STR, 1)
+local spd = deli(PARAM_STR, 1)
 
-if (not sfxend or type(sfxend) ~= "number") then
-	sfxend = sfxstart
-end
-
-spd = tonum(spd)
-
-assert(type(sfxstart) == "number", "sfxstart must be number\n" .. MESSAGES.GET_HELP)
-
-assert(spd, "spd must be a number")
+assert(tonum(spd), "spd must be a number")
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
 
@@ -85,7 +79,14 @@ reload(0x3200, 0x3200, 0x1100, src)
 --update spd
 printb("updating sfx spd...")
 
-sfx_speed(spd, sfxstart, sfxend)
+local excluded = make_range_lookup(unpack(params))
+
+for i = 0, 63 do
+	if not excluded[i] then
+		sfx_speed(i, spd)
+		printb("updated: " .. i)
+	end
+end
 
 --write dest rom
 printb("writing " .. dest)
