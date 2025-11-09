@@ -10,9 +10,9 @@ __lua__
 #include ../../lib/gfx/printb.lua
 #include ../../lib/music/get_unused_sfx.lua
 #include ../../lib/music/optimize_pattern.lua
+#include ../../lib/note/note_uses_instrument.lua
 #include ../../lib/sfx/get_unused_instruments.lua
 #include ../../lib/sfx/optimize_sfx.lua
-#include ../../lib/sfx/note_uses_instrument.lua
 #include ../../lib/sfx/rm_unused_instruments.lua
 #include ../../lib/sfx/rm_unused_sfx.lua
 #include ../../lib/sfx/sfx_reset.lua
