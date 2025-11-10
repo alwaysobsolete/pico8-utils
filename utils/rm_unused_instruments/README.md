@@ -33,8 +33,8 @@ help
 src,[dest],[excluded,...]
 ```
 
-* `src`: Path to source cart. *Must be below -root_path*.
+* `src`: Path to source cart. *Must be below and relative to -root_path*.
 
-* `dest`: Optional path to destination cart. *Must be below -root_path*. Defaults to `src`.
+* `dest`: Optional path to destination cart. *Must be below and relative to -root_path*. Defaults to `src`.
 
 * `excluded,...` - Optional instrument indexes to exclude

@@ -23,9 +23,9 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 param string options:\
 help - print this message\
 src,dest,wave,[inst],[effect] - extract instrument:\
-	example: \"foo.p8,bar.p8,0,false,3\"\
-	src      - path to src cart, must be below -root_path\
-	dest     - path to dest cart, must be below -root_path\
+	example: \"/foo.p8,/bar.p8,0,false,3\"\
+	src      - path to src cart, must be below and relative to -root_path\
+	dest     - path to dest cart, must be below and relative to -root_path\
 	wave     - waveform index\
 	[inst]   - wave is custom instrument\
 	[effect] - filter by effect command\
@@ -87,9 +87,9 @@ end
 local params = split(PARAM_STR)
 local src = deli(params, 1)
 local dest = deli(params, 1)
-local wave = tonum(deli(params, 1))
-local inst = deli(params, 1)
-local effect = tonum(deli(params, 1)) or false
+wave = tonum(deli(params, 1))
+inst = deli(params, 1)
+effect = tonum(deli(params, 1)) or false
 
 inst = inst ~= nil and inst ~= "" and inst ~= "false"
 
@@ -135,7 +135,7 @@ for sfx_idx = 0, 63 do
 		if
 			-- note is valid
 			is_valid(note)
-			-- note is audible slide
+			-- note slides from prev note
 			or (
 				note_idx > 0
 				and get_note_effect(note) == 1

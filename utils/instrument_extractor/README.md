@@ -33,9 +33,9 @@ help
 src,dest,wave,[inst],[effect]
 ```
 
-* `src`: Path to src cart, must be below -root_path\
+* `src`: Path to src cart, must be below and relative to -root_path\
 
-* `dest`: Path to dest cart, must be below -root_path\
+* `dest`: Path to dest cart, must be below and relative to -root_path\
 
 * `wave`: Waveform index
 

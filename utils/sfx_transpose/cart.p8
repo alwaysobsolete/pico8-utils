@@ -21,9 +21,9 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 param string options:\
 help - print this message\
 src,[dest],semitones,[excluded,...] - transpose sfx:\
-	example: \"foo.p8,bar.p8,-1,0-7\"\
-	src - path to src cart, must be below -root_path\
-	[dest] - path to dest cart, must be below -root_path\
+	example: \"/foo.p8,/bar.p8,-1,0-7\"\
+	src - path to src cart, must be below and relative to -root_path\
+	[dest] - path to dest cart, must be below and relative to -root_path\
 	semitones - semitones to transpose by\
 	[excluded,...] - sfx indexes to exclude,\
 		comma-delimited, can provide hyphen-delimited range, eg, 8-16\
