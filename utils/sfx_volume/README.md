@@ -33,9 +33,9 @@ help
 src,[dest],delta,[excluded,...]
 ```
 
-* `src`: Path to source cart. *Must be below -root_path*.
+* `src`: Path to source cart. *Must be below and relative to -root_path*.
 
-* `dest`: Path to destination cart. *Must be below -root_path*. Defaults to `src`.
+* `dest`: Path to destination cart. *Must be below and relative to -root_path*. Defaults to `src`.
 
 * `delta`: Amount to add or subtract from note volume
 

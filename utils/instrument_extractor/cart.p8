@@ -23,9 +23,9 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 param string options:\
 help - print this message\
 src,dest,wave,[inst],[effect] - extract instrument:\
-	example: \"foo.p8,bar.p8,0,false,3\"\
-	src      - path to src cart, must be below -root_path\
-	dest     - path to dest cart, must be below -root_path\
+	example: \"/foo.p8,/bar.p8,0,false,3\"\
+	src      - path to src cart, must be below and relative to -root_path\
+	dest     - path to dest cart, must be below and relative to -root_path\
 	wave     - waveform index\
 	[inst]   - wave is custom instrument\
 	[effect] - filter by effect command\

@@ -32,9 +32,9 @@ usage: pico8 -root_path /path/to/root -p \"param_str\" [-x | -run] /path/to/this
 param string options:\
 help - print this message\
 src,[dest] - reset sfx:\
-	example: \"foo.p8,bar.p8\"\
-	src - path to src cart, must be below -root_path\
-	[dest] - path to dest cart, must be below -root_path\
+	example: \"/foo.p8,/bar.p8\"\
+	src - path to src cart, must be below and relative to -root_path\
+	[dest] - path to dest cart, must be below and relative to -root_path\
 ",
 	GET_HELP = "\
 for help, run:\
