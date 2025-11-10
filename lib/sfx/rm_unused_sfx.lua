@@ -3,11 +3,14 @@
 -- call cstore() to save
 --
 -- @depends
+-- @see get_note_effect
+-- @see get_note_volume
+-- @see get_note_waveform
 -- @see get_unused_sfx
 -- @see get_unused_instruments
 -- @see get_used_instruments
 -- @see make_range_lookup
--- @see note_uses_instrument
+-- @see note_has_instrument_bit
 -- @see printb
 -- @see rm_unused_instruments
 -- @see sfx_reset

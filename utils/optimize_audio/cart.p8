@@ -10,7 +10,10 @@ __lua__
 #include ../../lib/gfx/printb.lua
 #include ../../lib/music/get_unused_sfx.lua
 #include ../../lib/music/optimize_pattern.lua
-#include ../../lib/note/note_uses_instrument.lua
+#include ../../lib/note/get_note_effect.lua
+#include ../../lib/note/get_note_volume.lua
+#include ../../lib/note/get_note_waveform.lua
+#include ../../lib/note/note_has_instrument_bit.lua
 #include ../../lib/sfx/get_unused_instruments.lua
 #include ../../lib/sfx/optimize_sfx.lua
 #include ../../lib/sfx/rm_unused_instruments.lua
