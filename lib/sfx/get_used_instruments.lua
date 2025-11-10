@@ -1,7 +1,10 @@
 ---get used custom instruments
 --
 --@depends
---@see note_uses_instrument
+--@see get_note_effect
+--@see get_note_volume
+--@see get_note_waveform
+--@see note_has_instrument_bit
 --@see sfx_uses_instrument
 --
 --@return {table} used custom instrument indexes
