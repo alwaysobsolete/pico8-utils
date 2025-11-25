@@ -53,18 +53,13 @@ end
 -->8
 --main
 local params = split(PARAM_STR)
-local src = deli(params, 1)
-local dest = deli(params, 1)
+local src = "/" .. deli(params, 1)
+local dest = "/" .. deli(params, 1)
 local subtrahends = params
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
-assert(sub(src, 1, 1) ~= "~", "shell expansion of ~ not supported")
-
 assert(dest ~= nil and dest ~= "", "dest is required\n" .. MESSAGES.GET_HELP)
-assert(sub(dest, 1, 1) ~= "~", "shell expansion of ~ not supported")
-
 assert(subtrahends[1] ~= nil and subtrahends[1] ~= "", "at least one subtrahend is required\n" .. MESSAGES.GET_HELP)
-assert(sub(subtrahends[1], 1, 1) ~= "~", "shell expansion of ~ not supported")
 
 --get src rom
 printb("loading " .. src)
@@ -73,6 +68,8 @@ reload(0x3100, 0x3100, 0x1200, src)
 
 --process subtrahends
 for subtrahend in all(subtrahends) do
+	local subtrahend = "/" .. subtrahend
+
 	--load audio data
 	printb("loading " .. subtrahend)
 

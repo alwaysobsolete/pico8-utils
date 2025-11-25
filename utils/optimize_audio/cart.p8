@@ -64,15 +64,15 @@ end
 --main
 
 --parse param_str
-local src, dest = unpack(split(PARAM_STR))
+local params = split(PARAM_STR)
+local src = "/" .. deli(params, 1)
+local dest = "/" .. deli(params, 1)
 
 if (not sfxend or type(sfxend) ~= "number") then
 	sfxend = sfxstart
 end
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
-
-assert(sub(src, 1, 1) ~= "~", "shell expansion of ~ not supported")
 
 if (not dest or dest == "") then
 	dest = src

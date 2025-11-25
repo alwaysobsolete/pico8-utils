@@ -52,7 +52,7 @@ end
 -->8
 --main
 local params = split(PARAM_STR)
-local dest = deli(params, 1)
+local dest = "/" .. deli(params, 1)
 local addends = params
 
 assert(dest ~= nil and dest ~= "", "dest is required\n" .. MESSAGES.GET_HELP)

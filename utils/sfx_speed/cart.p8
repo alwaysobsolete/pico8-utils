@@ -57,15 +57,12 @@ end
 
 --parse param_str
 local params = split(PARAM_STR)
-local src = deli(PARAM_STR, 1)
-local dest = deli(PARAM_STR, 1)
-local spd = deli(PARAM_STR, 1)
-
-assert(tonum(spd), "spd must be a number")
+local src = "/" .. deli(params, 1)
+local dest = "/" .. deli(params, 1)
+local spd = deli(params, 1)
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
-
-assert(sub(src, 1, 1) ~= "~", "shell expansion of ~ not supported")
+assert(tonum(spd), "spd must be a number")
 
 if (not dest or dest == "") then
 	dest = src

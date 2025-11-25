@@ -85,8 +85,8 @@ end
 
 --parse param_str
 local params = split(PARAM_STR)
-local src = deli(params, 1)
-local dest = deli(params, 1)
+local src = "/" ..deli(params, 1)
+local dest = "/" ..deli(params, 1)
 wave = tonum(deli(params, 1))
 inst = deli(params, 1)
 effect = tonum(deli(params, 1)) or false
@@ -94,13 +94,8 @@ effect = tonum(deli(params, 1)) or false
 inst = inst ~= nil and inst ~= "" and inst ~= "false"
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
-assert(sub(src, 1, 1) ~= "~", "shell expansion of ~ not supported")
-
 assert(dest ~= nil and dest ~= "", "dest is required\n" .. MESSAGES.GET_HELP)
-assert(sub(dest, 1, 1) ~= "~", "shell expansion of ~ not supported")
-
 assert(wave >= 0 and wave <= 7, "wave must be a number 0-7")
-
 assert(not effect or (effect >= 0 and wave <= 7), "effect must be a number 0-7")
 
 --get src rom

@@ -66,13 +66,11 @@ end
 
 --parse param_str
 local params = split(PARAM_STR)
-local src = deli(params, 1)
-local dest = deli(params, 1)
+local src = "/" .. deli(params, 1)
+local dest = "/" .. deli(params, 1)
 local excluded = params
 
 assert(src ~= nil and src ~= "", "src is required\n" .. MESSAGES.GET_HELP)
-
-assert(sub(src, 1, 1) ~= "~", "shell expansion of ~ not supported")
 
 if (not dest or dest == "") then
 	dest = src
