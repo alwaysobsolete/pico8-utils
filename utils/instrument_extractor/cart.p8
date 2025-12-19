@@ -124,6 +124,7 @@ for sfx_idx = 0, 63 do
 		local note_offset = sfx_offset + note_idx * 2
 		local note_addr = 0x3200 + note_offset
 		local note = %note_addr
+		local is_inst = note_has_instrument_bit(note)
 		local next_note = %(note_addr + 2)
 		local prev_note = %(note_addr - 2)
 
@@ -137,6 +138,16 @@ for sfx_idx = 0, 63 do
 				and is_valid(prev_note)
 			)
 		then
+			if
+				get_note_waveform(note) ~= wave
+				or (
+					(not is_inst and inst)
+					or (is_inst and not inst)
+				)
+			then
+				printb("warning: " .. "sfx " .. sfx_idx .. ": note " .. note_idx .. " may contain an invalid slide. copying anyway.")
+			end
+
 			-- copy note
 			poke2(0x4400 + note_offset, note)
 		elseif
