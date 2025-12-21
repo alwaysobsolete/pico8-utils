@@ -10,6 +10,8 @@ __lua__
 #include ../../lib/gfx/printb.lua
 #include ../../lib/sfx/sfx_transpose.lua
 #include ../../lib/table/make_range_lookup.lua
+#include ../../lib/note/get_note_effect.lua
+#include ../../lib/note/get_note_volume.lua
 
 -->8
 --constants
@@ -71,7 +73,7 @@ end
 --get src rom
 printb("loading " .. src)
 
-reload(0x3200, 0x3200, 0x1100, src)
+reload(0x3100, 0x3100, 0x1200, src)
 
 --transpose
 printb("transposing sfx...")
@@ -88,7 +90,7 @@ end
 --write dest rom
 printb("writing " .. dest)
 
-cstore(0x3200, 0x3200, 0x1100, dest)
+cstore(0x3100, 0x3100, 0x1200, dest)
 
 --message
 printb("\
